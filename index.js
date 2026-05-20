@@ -33,5 +33,8 @@ app.use("/", getAllPetsRoute);
 const getSinglePetRoute = require('./routes/get-single-pet.route');
 app.use("/", getSinglePetRoute);
 
+const getListingRoute = require('./routes/get-listing.route');
+app.use("/", getListingRoute);
+
 
 module.exports = { app };
