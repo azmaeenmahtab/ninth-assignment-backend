@@ -24,5 +24,8 @@ app.listen(port, () => {
 const addpetRoute = require('./routes/add-pet.route');
 app.use("/", addpetRoute);
 
+const adoptionRequestsRoute = require('./routes/adoption-requests.route');
+app.use("/", adoptionRequestsRoute);
+
 
 module.exports = { app };
