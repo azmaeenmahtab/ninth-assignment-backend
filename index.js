@@ -27,5 +27,11 @@ app.use("/", addpetRoute);
 const adoptionRequestsRoute = require('./routes/adoption-requests.route');
 app.use("/", adoptionRequestsRoute);
 
+const getAllPetsRoute = require('./routes/get-all-pets.route');
+app.use("/", getAllPetsRoute);
+
+const getSinglePetRoute = require('./routes/get-single-pet.route');
+app.use("/", getSinglePetRoute);
+
 
 module.exports = { app };
