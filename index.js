@@ -42,5 +42,8 @@ app.use("/", requestAdoptionRoute);
 const updatePetRoute = require('./routes/update-pet.route');
 app.use("/", updatePetRoute);
 
+const deleteListingRoute = require('./routes/delete-listing.route');
+app.use("/", deleteListingRoute);
+
 
 module.exports = { app };
