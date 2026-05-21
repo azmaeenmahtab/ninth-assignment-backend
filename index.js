@@ -39,5 +39,8 @@ app.use("/", getListingRoute);
 const requestAdoptionRoute = require('./routes/request-adoption.route');
 app.use("/", requestAdoptionRoute);
 
+const updatePetRoute = require('./routes/update-pet.route');
+app.use("/", updatePetRoute);
+
 
 module.exports = { app };
