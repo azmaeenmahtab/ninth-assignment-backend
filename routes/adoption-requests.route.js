@@ -1,9 +1,10 @@
 const express = require('express');
 const { client } = require('../db');
+const VerifyTokenMiddleware = require('../middlewares/verifyTokenMiddleware');
 
 const router = express.Router();
 
-router.get("/my-adoption-requests", async (req, res) => {
+router.get("/my-adoption-requests", VerifyTokenMiddleware, async (req, res) => {
     try {
         const userId = req.query.userId; // Assuming you pass the user ID as a query parameter
         if (!userId) {
@@ -17,7 +18,7 @@ router.get("/my-adoption-requests", async (req, res) => {
     }
 });
 
-router.get("/pet-adoption-requests", async (req, res) => {
+router.get("/pet-adoption-requests", VerifyTokenMiddleware, async (req, res) => {
     try {
         const petId = req.query.petId;
         if (!petId) {
@@ -38,7 +39,7 @@ router.get("/pet-adoption-requests", async (req, res) => {
     }
 });
 
-router.patch("/approve-adoption-request", async (req, res) => {
+router.patch("/approve-adoption-request", VerifyTokenMiddleware, async (req, res) => {
     try {
         const { petId, userId } = req.body || {};
         if (!petId || !userId) {

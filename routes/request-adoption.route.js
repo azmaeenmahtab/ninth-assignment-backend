@@ -1,9 +1,10 @@
 const express = require('express');
 const { client } = require('../db');
+const VerifyTokenMiddleware = require('../middlewares/verifyTokenMiddleware');
 
 const router = express.Router();
 
-router.post('/request-adoption', async (req, res) => {
+router.post('/request-adoption', VerifyTokenMiddleware, async (req, res) => {
     try {
         const {
             petId,
@@ -57,7 +58,7 @@ router.post('/request-adoption', async (req, res) => {
     }
 });
 
-router.delete('/request-adoption', async (req, res) => {
+router.delete('/request-adoption', VerifyTokenMiddleware, async (req, res) => {
     try {
         const { petId, userId } = req.query || {};
 

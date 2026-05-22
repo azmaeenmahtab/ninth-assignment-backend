@@ -1,9 +1,10 @@
 const express = require('express');
 const { client } = require('../db');
+const VerifyTokenMiddleware = require('../middlewares/verifyTokenMiddleware');
 
 const router = express.Router();
 
-router.post('/add-pet', async (req, res) => {
+router.post('/add-pet', VerifyTokenMiddleware, async (req, res) => {
   try {
     const petData = req.body;
     const result = await client.db().collection('pets').insertOne(petData);

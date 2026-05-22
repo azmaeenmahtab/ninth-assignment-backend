@@ -1,10 +1,11 @@
 const express = require('express');
 const { ObjectId } = require('mongodb');
 const { client } = require('../db');
+const VerifyTokenMiddleware = require('../middlewares/verifyTokenMiddleware');
 
 const router = express.Router();
 
-router.put('/update-pet', async (req, res) => {
+router.put('/update-pet', VerifyTokenMiddleware, async (req, res) => {
     try {
         const petId = req.query.petId;
         if (!petId) {

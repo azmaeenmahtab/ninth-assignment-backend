@@ -1,9 +1,10 @@
 const express = require('express');
 const { client } = require('../db');
+const VerifyTokenMiddleware = require('../middlewares/verifyTokenMiddleware');
 
 const router = express.Router();
 
-router.get('/get-listing', async (req, res) => {
+router.get('/get-listing', VerifyTokenMiddleware, async (req, res) => {
 	try {
 		const { userId, ownerEmail } = req.query;
 
