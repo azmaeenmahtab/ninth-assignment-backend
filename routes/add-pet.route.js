@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/add-pet', async (req, res) => {
   try {
     const petData = req.body;
-     const result = await client.db().collection('pets').insertOne(petData);
+    const result = await client.db().collection('pets').insertOne(petData);
     res.status(201).json({ success: true, message: 'Pet added successfully', petId: result.insertedId });
   } catch (error) {
     console.error('Error adding pet:', error);
