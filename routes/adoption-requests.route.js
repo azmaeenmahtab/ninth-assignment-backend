@@ -1,6 +1,7 @@
 const express = require('express');
 const { client } = require('../db');
 const VerifyTokenMiddleware = require('../middlewares/verifyTokenMiddleware');
+const { ObjectId } = require('mongodb');
 
 const router = express.Router();
 
@@ -39,6 +40,7 @@ router.get("/pet-adoption-requests", VerifyTokenMiddleware, async (req, res) => 
     }
 });
 
+
 router.patch("/approve-adoption-request", VerifyTokenMiddleware, async (req, res) => {
     try {
         const { petId, userId } = req.body || {};
@@ -46,13 +48,30 @@ router.patch("/approve-adoption-request", VerifyTokenMiddleware, async (req, res
             return res.status(400).json({ success: false, message: 'petId and userId are required' });
         }
 
-        const result = await client
-            .db()
-            .collection('adoption-requests')
+        if (!ObjectId.isValid(petId)) {
+            return res.status(400).json({ success: false, message: 'Invalid petId format' });
+        }
+
+        const isAlreadyApproved = await client.db().collection('adoption-requests')
+            .findOne({ petId, status: 'approved' });
+        if (isAlreadyApproved) {
+            return res.status(409).json({ success: false, message: 'This pet has already been adopted.' });
+        }
+
+        // Check the adoption request first
+        const result = await client.db().collection('adoption-requests')
             .updateOne({ petId, userId }, { $set: { status: 'approved' } });
 
         if (result.matchedCount === 0) {
             return res.status(404).json({ success: false, message: 'Request not found' });
+        }
+
+        // Then update the pet
+        const petUpdate = await client.db().collection('pets')
+            .updateOne({ _id: new ObjectId(petId) }, { $set: { adoptionStatus: 'adopted' } });
+
+        if (petUpdate.matchedCount === 0) {
+            return res.status(404).json({ success: false, message: 'Pet not found' });
         }
 
         res.status(200).json({ success: true });

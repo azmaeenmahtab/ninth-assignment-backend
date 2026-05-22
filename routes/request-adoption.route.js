@@ -26,6 +26,13 @@ router.post('/request-adoption', VerifyTokenMiddleware, async (req, res) => {
             return res.status(403).json({ success: false, message: 'Owner cannot request for adoption.' });
         }
 
+        const alreadyAdopted = await client.db().collection('adoption-requests').findOne({ petId, status: 'approved' });
+        if (alreadyAdopted) {
+            return res.status(409).json({ success: false, message: 'This pet has already been adopted.' });
+        }
+
+
+
         const existingRequest = await client
             .db()
             .collection('adoption-requests')
