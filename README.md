@@ -1,4 +1,4 @@
-# Backend — Pet Adoption Platform
+# Backend — Pet Adoption Platform - PawPals
 
 This document describes the backend service for the Pet Adoption platform: architecture, folder layout, available operations (API), environment variables, dependencies, and local run/deployment instructions.
 
